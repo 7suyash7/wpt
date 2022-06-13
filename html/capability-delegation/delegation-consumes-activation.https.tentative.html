@@ -17,16 +17,14 @@
   https://wicg.github.io/capability-delegation/spec.html
 </div>
 
-<iframe allow="payment" width="300px" height="50px" src="about:blank"></iframe>
+<iframe width="300px" height="50px" src="about:blank"></iframe>
 
 <script>
   promise_test(async () => {
       assert_false(navigator.userActivation.isActive);
       await test_driver.bless();
       assert_true(navigator.userActivation.isActive);
-      frames[0].postMessage({"type": "none"}, {targetOrigin: location.origin, delegate: ""});
-      assert_true(navigator.userActivation.isActive);
-      frames[0].postMessage({"type": "none"}, {targetOrigin: location.origin, delegate: "payment"});
+      frames[0].postMessage({"type": "none"}, {targetOrigin: location.origin, delegate: "no-op"});
       assert_false(navigator.userActivation.isActive);
-  }, `capability delegation consumes transient user activation`);
+  }, "Capability delegation consumes transient user activation");
 </script>
